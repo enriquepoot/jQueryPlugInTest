@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#feeditor').fetemp();
+
+        $('#save').click(function (e) {
+            e.preventDefault();
+            var templatedata = $('#feeditor').fetemp('getPageInfo');
+            $.ajax({
+                url: '@Url.Action("Index","Editor")',
+                data: JSON.stringify(templatedata),
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (result) {
+                    $('#feeditor').fetemp('setPageInfo', result);
+                }
+            });
+        });
+    });
+</script>
+
+<h2>Index</h2>
+
+<div id="feeditor"></div>
+<input type="button" id="save" />
+@*<div style="width:auto; height:auto;">
+<div style="float:left; display:block; width:auto;">EMPRESA DE DEMOSTRACION S.A. DE C.V</div>
+<div style="float:left; display:block; width:auto;">GOYA780416GM0</div>
+<div style="float:left; display:block; width:auto;">Calle Madero 495 1 Santa Isabel Tola</div>
+<div style="float:left; display:block; width:auto;">Benito Juarez</div>
+<div style="float:left; display:block; width:auto;">Distrito Federal, Mexico</div>
+<div style="float:left; display:block; width:auto;">C.P. 07010</div>
+</div>
+<div class="fe_invoicedata">
+<div class="fe_id_row">
+<div class="fe_id_row_l">Folio fiscal:</div>
+<div class="fe_id_row_r">AC589D52-167B-4501-AE15-ED89E9E45D39</div>
+</div>
+<div class="fe_id_row">
+<div class="fe_id_row_l">No. de serie del CSD del Emisor:</div>
+<div class="fe_id_row_r">20001000000100001708</div>
+</div>
+<div class="fe_id_row">
+<div class="fe_id_row_l">Fecha y hora de Emisión:</div>
+<div class="fe_id_row_r">19/02/2012 16:41:55</div>
+</div>
+<div class="fe_id_row">
+<div class="fe_id_row_l">Fecha y hora de Certificación:</div>
+<div class="fe_id_row_r">19/02/2012 16:30:26</div>
+</div>
+<div class="fe_id_row fe_id_row_final">
+<div class="fe_id_row_l">Tipo de CFDI:</div>
+<div class="fe_id_row_r">Factura</div>
+</div>
+</div>*@

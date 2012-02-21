@@ -1,0 +1,7 @@
+c:\users\family\documents\visual studio 2010\Projects\JQueryPlugInTest\JQueryPlugInTest\bin\JQueryPlugInTest.dll
+c:\users\family\documents\visual studio 2010\Projects\JQueryPlugInTest\JQueryPlugInTest\bin\JQueryPlugInTest.pdb
+c:\users\family\documents\visual studio 2010\Projects\JQueryPlugInTest\JQueryPlugInTest\bin\EntityFramework.dll
+c:\users\family\documents\visual studio 2010\Projects\JQueryPlugInTest\JQueryPlugInTest\bin\EntityFramework.xml
+c:\users\family\documents\visual studio 2010\Projects\JQueryPlugInTest\JQueryPlugInTest\obj\Debug\ResolveAssemblyReference.cache
+c:\users\family\documents\visual studio 2010\Projects\JQueryPlugInTest\JQueryPlugInTest\obj\Debug\JQueryPlugInTest.dll
+c:\users\family\documents\visual studio 2010\Projects\JQueryPlugInTest\JQueryPlugInTest\obj\Debug\JQueryPlugInTest.pdb
