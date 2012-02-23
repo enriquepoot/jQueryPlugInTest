@@ -2,7 +2,25 @@
     ViewBag.Title = "Index";
 }
 
+<script type="text/javascript" src="../../Scripts/Qmk.ColorSelector.js"></script>
+
 <script type="text/javascript">
+    var cs = null;
+    var cs2 = null;
+    $(document).ready(function () {
+        cs = new Qmk.ColorSelector('#ColorPicker', 'Color1', ['#123456', '#ff0000', '#ff3455', '#aa1256']);
+        cs2 = new Qmk.ColorSelector('#ColorPicker2', 'Color2', ['#123456', '#ff0000', '#ff3455', '#aa1256']);
+        cs2.bind('onChangeSelectedColor', function (color) {
+            alert(color);
+        });
+    });
+</script>
+
+<div id="ColorPicker" style="float:left; margin:10px"></div>
+<div id="ColorPicker2" style="float:left; margin:10px"></div>
+
+
+@*<script type="text/javascript">
     $(document).ready(function () {
         $('#feeditor').fetemp();
 
@@ -26,7 +44,7 @@
 <h2>Index</h2>
 
 <div id="feeditor"></div>
-<input type="button" id="save" />
+<input type="button" id="save" />*@
 @*<div style="width:auto; height:auto;">
 <div style="float:left; display:block; width:auto;">EMPRESA DE DEMOSTRACION S.A. DE C.V</div>
 <div style="float:left; display:block; width:auto;">GOYA780416GM0</div>
