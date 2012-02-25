@@ -14,24 +14,24 @@
         ColorListDisplayed: false,
         //Methods
         initialize: function(container, name, colors){
-            var self = this;
-            self.Observator = [];
-            self.Container = $(container);
-            self.Name = name;
-            self.Colors = [];
-            self.SelectedColor = null;
-            self.ColorListDisplayed = false;
+            var me = this;
+            me.Observator = [];
+            me.Container = $(container);
+            me.Name = name;
+            me.Colors = [];
+            me.SelectedColor = null;
+            me.ColorListDisplayed = false;
             for(i=0; i<colors.length; i++){
-                self.Colors.push(colors[i]);
+                me.Colors.push(colors[i]);
             }
-            self.renderControl();
+            me.renderControl();
         },
         renderControl:function(){
-            var self = this;
-            self.Container.css({
+            var me = this;
+            me.Container.css({
                 'position':'relative'
             });
-            var button = $('<a id="'+self.Name+'_'+'Button'+'" href="'+self.Name+'_'+'Button'+'"></a>')
+            var button = $('<a id="'+me.Name+'_'+'Button'+'" href="'+me.Name+'_'+'Button'+'"></a>')
             button.css({
                 'width':'20px',
                 'height':'20px',
@@ -40,22 +40,23 @@
             })
             .click(function(e){
                 e.preventDefault();
-                if(self.ColorListDisplayed==true)
+                if(me.ColorListDisplayed==true)
                 { 
-                    self.hideColorList(); 
+                    me.hideColorList(); 
                 }
                 else
                 { 
-                    self.showColorList(); 
+                    me.showColorList(); 
                 }
             });
-            self.Container.append(button);
-            self.addColorList();
+            me.Container.append(button);
+            me.addColorList();
         },
         addColorList: function(){
-            var self = this;
-            var colorlist = $('<div id="'+self.Name+'_'+'ColorList'+'"></div>');
+            var me = this;
+            var colorlist = $('<div id="'+me.Name+'_'+'ColorList'+'"></div>');
             colorlist.css({
+                'z-index':'5000',
                 'background-color':'lightgray',
                 'position':'absolute',
                 'width':'100px',
@@ -66,28 +67,28 @@
                 top: 20,
                 left:0
             });
-            self.Container.append(colorlist);
+            me.Container.append(colorlist);
             //Adding selector
-            for(i=0;i<self.Colors.length;i++)
+            for(i=0;i<me.Colors.length;i++)
             {
-                self.addSelector(colorlist, self.Colors[i]);
+                me.addSelector(colorlist, me.Colors[i]);
             }
         },
         showColorList: function(){
-            var self = this;
-            $('#'+self.Name+'_'+'ColorList').show(500);  
-            self.ColorListDisplayed = true;
-            $('#'+self.Name+'_'+'ColorList').focusout(function(){
-                self.hideColorList();
+            var me = this;
+            $('#'+me.Name+'_'+'ColorList').show(500);  
+            me.ColorListDisplayed = true;
+            $('#'+me.Name+'_'+'ColorList').focusout(function(){
+                me.hideColorList();
             });         
         },
         hideColorList: function(){
-            var self = this;
-            $('#'+self.Name+'_'+'ColorList').hide(500);
-            self.ColorListDisplayed = false;
+            var me = this;
+            $('#'+me.Name+'_'+'ColorList').hide(500);
+            me.ColorListDisplayed = false;
         },
         addSelector:function(container, color){
-            var self = this;
+            var me = this;
             var picker = $('<a href="'+color+'" alt="'+color+'"></a>');
             picker.css({
                 'background-color':color,
@@ -98,29 +99,92 @@
             })
             .click(function(e){
                 e.preventDefault();
-                self.setSelectedColor($(this).attr('href'));
-                self.hideColorList();
+                me.setSelectedColor($(this).attr('href'));
+                me.hideColorList();
             });
             container.append(picker);
         },
         setSelectedColor:function(color){
-            var self = this;
-            self.SelectedColor = color;
-            $('#'+self.Name+'_'+'Button').css({
+            var me = this;
+            me.SelectedColor = color;
+            $('#'+me.Name+'_'+'Button').css({
                 'background-color':color
             });
-            self.trigger('onChangeSelectedColor',color);
+            me.trigger('onChangeSelectedColor',color);
         },
         //Events
         bind: function(method, callback){
-            var self = this;
-            self.Observator[method]=callback;
+            var me = this;
+            me.Observator[method]=callback;
         },
         trigger: function(method, args){
-            var self = this;
-            if(!self.Observator[method])
+            var me = this;
+            if(!me.Observator[method])
                 return;
-            self.Observator[method](args);
+            me.Observator[method](args);
         }
     };
 })(jQuery);
+
+(function($){
+    
+    Qmk.QEditor = function(){
+        this.initialize.apply(this, arguments);
+    };
+    Qmk.QEditor.prototype = {
+        Observator: [],
+        //Properties
+        Name:null,
+        Container:null,
+        PageSize: {
+            width:null,
+            height:null
+        },
+        Elements:[],
+        //Constructor
+        initialize: function(container, name, pageSize, elements){
+            var me = this;
+            me.Container = $(container);     
+            me.Name = name; 
+            me.PageSize = pageSize;
+            me.Elements = elements;
+            me.renderControl();     
+        },
+        //Methods
+        renderControl:function(){
+            var me = this;
+            me.Container.addClass('qeditor_container');
+            me.renderToolbar();
+            //CreateViewPort
+            var viewPort = $('<div id="'+me.Name+'_viewport'+'" class="qeditor_viewport"></div>');
+            me.Container.append(viewPort);
+            //CreatePage
+            var page = $('<div id="'+me.Name+'_page'+'" class="qeditor_page"></div>');
+            page.width(me.PageSize.width).height(me.PageSize.height);
+            viewPort.append(page);
+        },
+        renderToolbar:function(){
+            var me = this;
+            //Create Toolbar
+            var toolbar = $('<div id="'+me.Name+'_toolbar'+'" class="qeditor_toolbar"></div>');
+            me.Container.append(toolbar);
+            //Add tools------>
+            //Add FontColorTool
+            var fct = $('<div id="'+me.Name+'_fontcolortool'+'" class="qeditor_fontcolortool"></div>');
+            toolbar.append(fct);
+            var fontColorTool = new Qmk.ColorSelector('#'+me.Name+'_fontcolortool', 'fontColorTool', ['#123456', '#ff0000', '#ff3455', '#aa1256']);
+        },
+        //Events
+        bind: function(method, callback){
+            var me = this;
+            me.Observator[method]=callback;
+        },
+        trigger: function(method, args){
+            var me = this;
+            if(!me.Observator[method])
+                return;
+            me.Observator[method](args);
+        }
+    };
+
+})( jQuery );

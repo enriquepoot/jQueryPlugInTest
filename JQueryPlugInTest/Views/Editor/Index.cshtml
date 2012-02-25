@@ -7,17 +7,21 @@
 <script type="text/javascript">
     var cs = null;
     var cs2 = null;
+    var fe = null;
     $(document).ready(function () {
         cs = new Qmk.ColorSelector('#ColorPicker', 'Color1', ['#123456', '#ff0000', '#ff3455', '#aa1256']);
         cs2 = new Qmk.ColorSelector('#ColorPicker2', 'Color2', ['#123456', '#ff0000', '#ff3455', '#aa1256']);
-        cs2.bind('onChangeSelectedColor', function (color) {
-            alert(color);
-        });
+        fe = new Qmk.QEditor('#FacturaEditor', 'FacturaEditor1', { width: 610, height: 789 }, []);
     });
 </script>
 
 <div id="ColorPicker" style="float:left; margin:10px"></div>
 <div id="ColorPicker2" style="float:left; margin:10px"></div>
+
+
+<br />
+<br />
+<div id="FacturaEditor"></div>
 
 
 @*<script type="text/javascript">
