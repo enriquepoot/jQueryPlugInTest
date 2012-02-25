@@ -126,6 +126,7 @@
     };
 })(jQuery);
 
+/*Editor*/
 (function($){
     
     Qmk.QEditor = function(){
@@ -141,6 +142,9 @@
             height:null
         },
         Elements:[],
+        Tools:{
+            FontColorTool:null
+        },
         //Constructor
         initialize: function(container, name, pageSize, elements){
             var me = this;
@@ -162,6 +166,8 @@
             var page = $('<div id="'+me.Name+'_page'+'" class="qeditor_page"></div>');
             page.width(me.PageSize.width).height(me.PageSize.height);
             viewPort.append(page);
+            //Add elements
+            me.renderElements();
         },
         renderToolbar:function(){
             var me = this;
@@ -173,6 +179,151 @@
             var fct = $('<div id="'+me.Name+'_fontcolortool'+'" class="qeditor_fontcolortool"></div>');
             toolbar.append(fct);
             var fontColorTool = new Qmk.ColorSelector('#'+me.Name+'_fontcolortool', 'fontColorTool', ['#123456', '#ff0000', '#ff3455', '#aa1256']);
+            me.Tools.FontColorTool = fontColorTool;
+        },
+        renderElements:function(){
+            var me = this;
+            var $viewport = $('#'+me.Name+'_viewport');
+            for(var i=0; i<me.Elements.length;i++){
+                me.Elements[i].MoveTo($viewport);
+                //add draggable and sizable
+                me.Elements[i].AddDraggableBehavior($viewport);
+                //addSeleccionbehavior
+                me.Elements[i].AddToolEventBehavior(me.Tools);
+            }
+        },
+        //Events
+        bind: function(method, callback){
+            var me = this;
+            me.Observator[method]=callback;
+        },
+        trigger: function(method, args){
+            var me = this;
+            if(!me.Observator[method])
+                return;
+            me.Observator[method](args);
+        }
+    };
+
+})( jQuery );
+
+/*
+Types available
+-Fields
+-images
+*/
+
+(function($){
+
+    Qmk.QElement = function(){
+        this.initialize.apply(this,arguments);
+    };
+    Qmk.QElement.prototype = {
+        //
+        Observator: [],
+        //Properties
+        Name:null,
+        Container:null,
+        Properties:{
+            Type:'field',
+            Position:{ top:10, left:10 },
+            Size:{ width:100,height:50 },
+            Font:'Arial',
+            FontColor:'Black',
+            FontSize:'12px',
+            LeftBorder:{Visible:false, Color:'Blue'},
+            RightBorder:{Visible:false, Color:'Blue'},
+            TopBorder:{Visible:false, Color:'Blue'},
+            DownBorder:{Visible:false, Color:'Blue'},
+            LabelText:'Text',
+            DataText:'Data'
+        },        
+        //Constructor
+        initialize:function(container, name, properties){
+            var me = this;
+            me.Container = $(container);
+            me.Name = name;
+            me.Properties = $.extend({}, me.Properties,properties);
+            me.renderElement(me.Properties.Type);
+        },
+        //Methods
+        renderElement:function(type){
+            var me = this;
+            switch(type){
+                case 'field':
+                    me.renderFieldElement();                            
+                break;
+            }
+        },
+        renderFieldElement:function(){
+            var me = this;
+            //Add drag handler
+            var drag_handler = $('<div id="'+me.Name+'_draghandler'+'" class="qelement_draghandler"></div>');
+            me.Container
+            .css({
+                    'font-family':me.Properties.Font,
+                    'font-size':me.Properties.FontSize,
+                    'color':me.Properties.FontColor,
+                    'width': me.Properties.Size.width,
+                    'height': me.Properties.Size.height,
+                    'left': me.Properties.Position.top,
+                    'top': me.Properties.Position.left
+                });
+            me.Container.append(drag_handler);
+            var field = $('<div id="'+me.Name+'_fieldborder'+'" class="qelement_fieldborder"><div id="'+me.Name+'_fieldLabel'+'" class="qelement_fieldlabel">'+
+            me.Properties.LabelText
+            +'</div><div id="'+me.Name+'_fieldData'+'" class="qelement_fielddata">'+
+            me.Properties.DataText
+            +'</div><div>');
+            me.Container.append(field);
+        },
+        MoveTo:function(newParent){
+            var me = this;
+            me.Container.detach();
+            newParent.append(me.Container);
+        },
+        AddDraggableBehavior:function($viewport){
+            var me = this;
+            me.Container
+            .draggable({
+                containment: $viewport,
+                handle: '#'+me.Name+'_draghandler'
+            })
+            .resizable({
+                containment: $viewport
+            });
+        },
+        AddToolEventBehavior:function(tools){
+            var me = this;
+            me.Container.mousedown(function(e){
+                e.preventDefault();
+                me.MarkSelect();
+                tools.FontColorTool.bind('onChangeSelectedColor',function(color){
+                    me.Properties.FontColor = color;
+                    me.renderProperties();
+                });
+            });
+        },
+        renderProperties:function(){
+            var me = this;
+            me.Container
+            .css({
+                    'font-family':me.Properties.Font,
+                    'font-size':me.Properties.FontSize,
+                    'color':me.Properties.FontColor
+                });
+        },
+        MarkSelect:function(){
+            var me = this;
+            $('#'+me.Name+'_draghandler').css({
+                'border': '1px dashed black'
+            });
+        },
+        MarkUnselect:function(){
+            var me = this;
+            $('#'+me.Name+'_draghandler').css({
+                'border': '1px dotted black'
+            });
         },
         //Events
         bind: function(method, callback){

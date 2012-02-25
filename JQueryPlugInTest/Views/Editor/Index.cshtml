@@ -5,22 +5,23 @@
 <script type="text/javascript" src="../../Scripts/Qmk.ColorSelector.js"></script>
 
 <script type="text/javascript">
-    var cs = null;
-    var cs2 = null;
     var fe = null;
     $(document).ready(function () {
-        cs = new Qmk.ColorSelector('#ColorPicker', 'Color1', ['#123456', '#ff0000', '#ff3455', '#aa1256']);
-        cs2 = new Qmk.ColorSelector('#ColorPicker2', 'Color2', ['#123456', '#ff0000', '#ff3455', '#aa1256']);
-        fe = new Qmk.QEditor('#FacturaEditor', 'FacturaEditor1', { width: 610, height: 789 }, []);
+        var element1 = new Qmk.QElement("#Field1", "Field1", {
+            Type: 'field',
+            Position: { top: 10, left: 10 },
+            Size: { width: 100, height: 50 },
+            Font: 'Arial',
+            FontColor: 'Blue',
+            FontSize: '12px',
+        });
+        fe = new Qmk.QEditor('#FacturaEditor', 'FacturaEditor1', { width: 610, height: 789 }, [element1]);
     });
 </script>
 
-<div id="ColorPicker" style="float:left; margin:10px"></div>
-<div id="ColorPicker2" style="float:left; margin:10px"></div>
-
-
 <br />
 <br />
+<div id="Field1"></div>
 <div id="FacturaEditor"></div>
 
 

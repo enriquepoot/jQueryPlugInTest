@@ -5,3 +5,10 @@ c:\users\family\documents\visual studio 2010\Projects\JQueryPlugInTest\JQueryPlu
 c:\users\family\documents\visual studio 2010\Projects\JQueryPlugInTest\JQueryPlugInTest\obj\Debug\ResolveAssemblyReference.cache
 c:\users\family\documents\visual studio 2010\Projects\JQueryPlugInTest\JQueryPlugInTest\obj\Debug\JQueryPlugInTest.dll
 c:\users\family\documents\visual studio 2010\Projects\JQueryPlugInTest\JQueryPlugInTest\obj\Debug\JQueryPlugInTest.pdb
+D:\Proyectos\Git Projects\DevNight\JQueryPlugInTest\bin\JQueryPlugInTest.dll
+D:\Proyectos\Git Projects\DevNight\JQueryPlugInTest\bin\JQueryPlugInTest.pdb
+D:\Proyectos\Git Projects\DevNight\JQueryPlugInTest\bin\EntityFramework.dll
+D:\Proyectos\Git Projects\DevNight\JQueryPlugInTest\bin\EntityFramework.xml
+D:\Proyectos\Git Projects\DevNight\JQueryPlugInTest\obj\Debug\ResolveAssemblyReference.cache
+D:\Proyectos\Git Projects\DevNight\JQueryPlugInTest\obj\Debug\JQueryPlugInTest.dll
+D:\Proyectos\Git Projects\DevNight\JQueryPlugInTest\obj\Debug\JQueryPlugInTest.pdb
