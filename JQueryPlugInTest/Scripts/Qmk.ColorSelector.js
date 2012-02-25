@@ -142,8 +142,10 @@
             height:null
         },
         Elements:[],
+        ToolColors:['white','blue','red','green','pink','aqua','purple','lime','navy','#123456', '#ff0000', '#ff3455', '#aa1256'],
         Tools:{
-            FontColorTool:null
+            FontColorTool:null,
+            BorderBottomColorTool:null
         },
         //Constructor
         initialize: function(container, name, pageSize, elements){
@@ -176,10 +178,15 @@
             me.Container.append(toolbar);
             //Add tools------>
             //Add FontColorTool
-            var fct = $('<div id="'+me.Name+'_fontcolortool'+'" class="qeditor_fontcolortool"></div>');
+            var fct = $('<div class="qeditor_toollabel">Font Color: </div><div id="'+me.Name+'_fontcolortool'+'" class="qeditor_fontcolortool"></div>');
             toolbar.append(fct);
-            var fontColorTool = new Qmk.ColorSelector('#'+me.Name+'_fontcolortool', 'fontColorTool', ['#123456', '#ff0000', '#ff3455', '#aa1256']);
+            var fontColorTool = new Qmk.ColorSelector('#'+me.Name+'_fontcolortool', 'fontColorTool', me.ToolColors);
             me.Tools.FontColorTool = fontColorTool;
+            //Add BorderBottomColorTool
+            var bbct = $('<div class="qeditor_toollabel">BBottom Color: </div><div id="'+me.Name+'_borderBottomColorTool'+'" class="qeditor_borderBottomColorTool"></div>');
+            toolbar.append(bbct);
+            var borderBottomColorTool = new Qmk.ColorSelector('#'+me.Name+'_borderBottomColorTool', 'borderBottomColorTool', me.ToolColors);
+            me.Tools.BorderBottomColorTool = borderBottomColorTool;
         },
         renderElements:function(){
             var me = this;
@@ -191,6 +198,20 @@
                 //addSeleccionbehavior
                 me.Elements[i].AddToolEventBehavior(me.Tools);
             }
+        },
+        getPrintData:function(){
+            var me = this;
+            var data = {
+                Name:me.Name,
+                PageRepositionGap:{top:10, left:10},
+                PageSize: me.PageSize,
+                Elements:[]
+            };
+            //GetElementsPrintData
+            for(var i=0; i<me.Elements.length; i++){
+                data.Elements.push(me.Elements[i].getPrintData());
+            }
+            return data;
         },
         //Events
         bind: function(method, callback){
@@ -234,15 +255,17 @@ Types available
             LeftBorder:{Visible:false, Color:'Blue'},
             RightBorder:{Visible:false, Color:'Blue'},
             TopBorder:{Visible:false, Color:'Blue'},
-            DownBorder:{Visible:false, Color:'Blue'},
+            BottomBorder:{Visible:true, Color:'Blue'},
             LabelText:'Text',
             DataText:'Data'
         },        
         //Constructor
         initialize:function(container, name, properties){
             var me = this;
-            me.Container = $(container);
             me.Name = name;
+            var holder = $('<div id="'+me.Name+'_container'+'"></div>');
+            $(container).append(holder);
+            me.Container = $(holder);
             me.Properties = $.extend({}, me.Properties,properties);
             me.renderElement(me.Properties.Type);
         },
@@ -259,16 +282,6 @@ Types available
             var me = this;
             //Add drag handler
             var drag_handler = $('<div id="'+me.Name+'_draghandler'+'" class="qelement_draghandler"></div>');
-            me.Container
-            .css({
-                    'font-family':me.Properties.Font,
-                    'font-size':me.Properties.FontSize,
-                    'color':me.Properties.FontColor,
-                    'width': me.Properties.Size.width,
-                    'height': me.Properties.Size.height,
-                    'left': me.Properties.Position.top,
-                    'top': me.Properties.Position.left
-                });
             me.Container.append(drag_handler);
             var field = $('<div id="'+me.Name+'_fieldborder'+'" class="qelement_fieldborder"><div id="'+me.Name+'_fieldLabel'+'" class="qelement_fieldlabel">'+
             me.Properties.LabelText
@@ -276,6 +289,7 @@ Types available
             me.Properties.DataText
             +'</div><div>');
             me.Container.append(field);
+            me.renderProperties();
         },
         MoveTo:function(newParent){
             var me = this;
@@ -287,10 +301,19 @@ Types available
             me.Container
             .draggable({
                 containment: $viewport,
-                handle: '#'+me.Name+'_draghandler'
+                handle: '#'+me.Name+'_draghandler',
+                snap:true,
+                stop:function(event, ui){
+                    me.Properties.Position.left = me.Container.position().left;
+                    me.Properties.Position.top = me.Container.position().top;
+                }
             })
             .resizable({
-                containment: $viewport
+                containment: $viewport,
+               stop:function(event, ui){
+                    me.Properties.Size.width = me.Container.width();
+                    me.Properties.Size.height = me.Container.height();
+               },
             });
         },
         AddToolEventBehavior:function(tools){
@@ -302,6 +325,11 @@ Types available
                     me.Properties.FontColor = color;
                     me.renderProperties();
                 });
+                tools.BorderBottomColorTool.bind('onChangeSelectedColor',function(color){
+                    me.Properties.BottomBorder.Color = color;
+                    me.Properties.BottomBorder.Visible = true;
+                    me.renderProperties();
+                });
             });
         },
         renderProperties:function(){
@@ -310,8 +338,19 @@ Types available
             .css({
                     'font-family':me.Properties.Font,
                     'font-size':me.Properties.FontSize,
-                    'color':me.Properties.FontColor
+                    'color':me.Properties.FontColor,
+                    'width': me.Properties.Size.width,
+                    'height': me.Properties.Size.height,
+                    'left': me.Properties.Position.left,
+                    'top': me.Properties.Position.top
                 });
+                //Render border
+            me.Container.children('#'+me.Name+'_fieldborder').css({
+                'border-top':((me.Properties.TopBorder.Visible==true)?'1px solid '+ me.Properties.TopBorder.Color:'0'),
+                'border-right':((me.Properties.RightBorder.Visible==true)?'1px solid '+ me.Properties.RightBorder.Color:'0'),
+                'border-bottom':((me.Properties.BottomBorder.Visible==true)?'1px solid '+ me.Properties.BottomBorder.Color:'0'),
+                'border-left':((me.Properties.LeftBorder.Visible==true)?'1px solid '+ me.Properties.LeftBorder.Color:'0')
+            });
         },
         MarkSelect:function(){
             var me = this;
@@ -324,6 +363,14 @@ Types available
             $('#'+me.Name+'_draghandler').css({
                 'border': '1px dotted black'
             });
+        },
+        getPrintData:function(){
+            var me = this;
+            var data = {
+                Name:me.Name,        
+                Properties: me.Properties
+           };
+           return data;
         },
         //Events
         bind: function(method, callback){

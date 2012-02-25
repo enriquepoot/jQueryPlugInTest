@@ -10,18 +10,49 @@
         var element1 = new Qmk.QElement("#Field1", "Field1", {
             Type: 'field',
             Position: { top: 10, left: 10 },
-            Size: { width: 100, height: 50 },
+            Size: { width: 100, height: 20 },
             Font: 'Arial',
             FontColor: 'Blue',
             FontSize: '12px',
         });
-        fe = new Qmk.QEditor('#FacturaEditor', 'FacturaEditor1', { width: 610, height: 789 }, [element1]);
+        var element2 = new Qmk.QElement("#Field2", "Field2", {
+            Type: 'field',
+            Position: { top: 40, left: 40 },
+            Size: { width: 100, height: 20 },
+            Font: 'Arial',
+            FontColor: 'Blue',
+            FontSize: '12px',
+        });
+        var element3 = new Qmk.QElement("#Field3", "Field3", {
+            Type: 'field',
+            Position: { top: 20, left: 70 },
+            Size: { width: 100, height: 20 },
+            Font: 'Arial',
+            FontColor: 'Blue',
+            FontSize: '12px',
+        });
+        fe = new Qmk.QEditor('#FacturaEditor', 'FacturaEditor1', { width: 610, height: 789 }, [element1,element2,element3]);
+        //Generate PDF
+        $('#Generarpdf').click(function (e) {
+            e.preventDefault();
+            var templatedata = fe.getPrintData();
+            console.log(JSON.stringify(templatedata));
+            $.ajax({
+                url: '@Url.Action("Index","Editor")',
+                data: JSON.stringify(templatedata),
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (result) {
+                    console.log(result);
+                }
+            });
+        });
     });
 </script>
 
 <br />
-<br />
-<div id="Field1"></div>
+<input id ="Generarpdf" type="button" value="Generar PDF" />
 <div id="FacturaEditor"></div>
 
 
