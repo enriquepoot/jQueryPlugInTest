@@ -12,3 +12,10 @@ D:\Proyectos\Git Projects\DevNight\JQueryPlugInTest\bin\EntityFramework.xml
 D:\Proyectos\Git Projects\DevNight\JQueryPlugInTest\obj\Debug\ResolveAssemblyReference.cache
 D:\Proyectos\Git Projects\DevNight\JQueryPlugInTest\obj\Debug\JQueryPlugInTest.dll
 D:\Proyectos\Git Projects\DevNight\JQueryPlugInTest\obj\Debug\JQueryPlugInTest.pdb
+D:\Projects\GIT\jQueryPlugInTest\JQueryPlugInTest\bin\JQueryPlugInTest.dll
+D:\Projects\GIT\jQueryPlugInTest\JQueryPlugInTest\bin\JQueryPlugInTest.pdb
+D:\Projects\GIT\jQueryPlugInTest\JQueryPlugInTest\bin\EntityFramework.dll
+D:\Projects\GIT\jQueryPlugInTest\JQueryPlugInTest\bin\EntityFramework.xml
+D:\Projects\GIT\jQueryPlugInTest\JQueryPlugInTest\obj\Debug\JQueryPlugInTest.csprojResolveAssemblyReference.cache
+D:\Projects\GIT\jQueryPlugInTest\JQueryPlugInTest\obj\Debug\JQueryPlugInTest.dll
+D:\Projects\GIT\jQueryPlugInTest\JQueryPlugInTest\obj\Debug\JQueryPlugInTest.pdb
