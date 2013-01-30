@@ -1,0 +1,81 @@
+﻿/* 
++
++
+*/
+
+.fetemp_container{}
+
+.fetemp_viewport
+{
+    position: relative;
+    overflow:scroll;
+    border: 1px solid #ccc;
+    width: 640px;
+    height: 480px;
+    background-image: url('images/viewport_background.gif');
+}
+
+.fetemp_page
+{
+    position: absolute;
+    border: 1px solid Black;
+    background-color:White;
+    top:10px;
+    left:10px;
+    width:610px;
+    height:789px;
+    padding-bottom:10px;
+}
+
+.fetemp_element
+{
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid yellow;
+}
+
+.fetemp_drag_handler
+{
+  position: absolute;
+  top:0;left:0;right:0;bottom:0;
+  background-color: #fff;
+  opacity: .1; /* FX/Opera/Safari/Chrome */
+  -ms-filter: "alpha(opacity=10)"; /* IE8 */
+  filter: alpha(opacity = 10); /* IE6/IE7 */
+}
+
+.fe_enterpricedata
+{
+}
+
+/* invoice data area -->*/
+.fe_invoicedata
+{
+    width:auto;
+    height:auto;
+}
+
+.fe_id_row
+{
+    float:left; 
+    display:block;
+    width:100%;
+    border-top: 1px solid blue;
+}
+
+.fe_id_row_l
+{
+    float:left;
+}
+
+.fe_id_row_r
+{
+    float:right;
+}
+
+.fe_id_row_final
+{
+    border-bottom: 1px solid blue;
+}
+
+/* invoice data area <--*/

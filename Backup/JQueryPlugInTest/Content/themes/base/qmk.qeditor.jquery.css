@@ -1,0 +1,102 @@
+﻿.qeditor_container
+{
+    width:650px;
+    height:480px;
+}
+
+.qeditor_viewport
+{
+    position: relative;
+    overflow:scroll;
+    border: 1px solid #ccc;
+    width: 650px;
+    height: 480px;
+    background-image: url('images/viewport_background.gif');
+}
+
+.qeditor_toolbar
+{
+    position:relative;
+    border: 1px solid gray;
+    background-color: Menu;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    overflow:visible;
+    z-index:5000;
+}
+
+.qeditor_page
+{
+    position: absolute;
+    border: 1px solid Black;
+    background-color:White;
+    top:10px;
+    left:10px;
+    width:610px;
+    height:789px;
+}
+
+/*Tools*/
+.qeditor_toollabel
+{
+    position:relative;
+    float:left;
+    top:5px;
+    margin-right:2px;
+    margin-left:5px;
+    color:
+}
+.qeditor_fontcolortool
+{
+    top:5px;
+    float:left;
+}
+.qeditor_borderBottomColorTool
+{
+    top:5px;
+    float:left;
+}
+
+/*Elements*/
+.qeditor_element
+{
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid yellow;
+    font-family:Arial;
+    font-size:12px;
+    color:Blue;
+}
+
+.qelement_fieldborder
+{
+    width:100%;
+    height:100%;
+}
+
+.qelement_fieldlabel
+{
+    width:50%;
+    height:100%;
+    float:left;
+}
+
+.qelement_fielddata
+{
+    width:50%;
+    height:100%;
+    float:left;
+}
+
+.qelement_draghandler
+{
+  position: absolute;
+  top:0;left:0;right:0;bottom:0;
+  border: 1px dotted black;
+  background-color: #fff;
+  opacity: .1; /* FX/Opera/Safari/Chrome */
+  -ms-filter: "alpha(opacity=10)"; /* IE8 */
+  filter: alpha(opacity = 10); /* IE6/IE7 */
+}
